@@ -1,0 +1,42 @@
+# data & checkpoints (large)
+data/raw/
+data/processed/
+*.las
+*.laz
+*.ply
+*.pcd
+*.h5
+*.npy
+*.npz
+checkpoints/
+*.pth
+*.ckpt
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# logs / outputs
+runs/
+wandb/
+logs/
+*.log
+outputs/
+
+# os
+.DS_Store
+Thumbs.db
+
+# node
+node_modules/
+dist/
+
+# internal notes (not for publication)
+.claude/
+PLAN.md
+ssh.md
+云GPU跨境下载提速笔记.md
