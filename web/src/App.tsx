@@ -49,6 +49,10 @@ function App() {
         <div className="hero-inner">
           <p className="kicker">Terrestrial laser scanning · point-cloud segmentation</p>
           <h1>Label-Efficient Leaf-Wood Separation in TLS Forest Point Clouds</h1>
+          <p className="byline">
+            Guanxiong Huang · College of Information Engineering, Northwest A&amp;F University ·{" "}
+            <a href="mailto:harry.huang@nwafu.edu.cn">harry.huang@nwafu.edu.cn</a>
+          </p>
           <p className="lede">
             Separating wood from leaves in terrestrial-laser-scanning point clouds is a leading
             source of uncertainty in plot-scale biomass, and remains difficult under canopy
