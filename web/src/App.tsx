@@ -58,9 +58,10 @@ function App() {
           </p>
           <Viewer />
           <p className="viewer-cap">
-            A held-out tree, predicted leaf vs wood. Drag to rotate; toggle prediction, ground
-            truth, and errors. Prediction matches the human labels on 95% of points; the residual
-            errors sit in the occluded crown.
+            A held-out 30&nbsp;m tree at full scan density (~400k points), predicted leaf vs wood.
+            Drag to rotate; toggle prediction, ground truth, and errors. Prediction agrees with the
+            human labels on ~88% of points; the residual errors trace the woody branches embedded in
+            the canopy — the hardest leaf-wood boundary.
           </p>
         </div>
       </header>

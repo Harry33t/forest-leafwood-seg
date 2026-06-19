@@ -71,7 +71,7 @@ table.results td.best { font-weight: 700; color: var(--leaf-deep); }
 .vbtn:hover { color: var(--ink); border-color: var(--leaf); }
 .vbtn-on { background: var(--leaf); color: #fff; border-color: var(--leaf); }
 .viewer-meta { margin-left: auto; font-size: 0.78rem; color: var(--faint); }
-.viewer-canvas { height: 460px; width: 100%; cursor: grab; }
+.viewer-canvas { height: 560px; width: 100%; cursor: grab; }
 .viewer-canvas:active { cursor: grabbing; }
 .viewer-msg { color: var(--muted); text-align: center; padding-top: 200px; }
 

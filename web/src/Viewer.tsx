@@ -6,10 +6,12 @@ import * as THREE from "three";
 type Mode = "pred" | "gt" | "error";
 type TreeData = { pos: Float32Array; pred: Uint8Array; gt: Uint8Array; n: number };
 
-const LEAF = [0.16, 0.62, 0.2];
-const WOOD = [0.5, 0.3, 0.1];
-const OK = [0.22, 0.27, 0.22];   // dark grey: correct points recede
-const ERR = [1.0, 0.12, 0.08];   // bright red: errors pop
+const LEAF = [0.36, 0.88, 0.42]; // fresh canopy green
+const WOOD = [0.85, 0.57, 0.29]; // warm tan — pops against the green
+const OK = [0.1, 0.13, 0.11]; // correct points recede into the dark
+const ERR = [1.0, 0.32, 0.12]; // errors ignite
+
+const BG = "#060b08";
 
 function parse(buf: ArrayBuffer): TreeData {
   const dv = new DataView(buf);
@@ -23,18 +25,44 @@ function parse(buf: ArrayBuffer): TreeData {
   return { pos, pred, gt, n };
 }
 
+// soft round sprite so points read as scan returns, not square blocks
+function makeSprite(): THREE.Texture {
+  const s = 64;
+  const c = document.createElement("canvas");
+  c.width = c.height = s;
+  const ctx = c.getContext("2d")!;
+  const g = ctx.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+  g.addColorStop(0, "rgba(255,255,255,1)");
+  g.addColorStop(0.45, "rgba(255,255,255,0.95)");
+  g.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, s, s);
+  const tex = new THREE.CanvasTexture(c);
+  tex.needsUpdate = true;
+  return tex;
+}
+
 function Cloud({ data, mode }: { data: TreeData; mode: Mode }) {
   const ref = useRef<THREE.Points>(null);
+  const sprite = useMemo(makeSprite, []);
 
-  // height (data z) -> three Y up;  (x, z, -y)
-  const positions = useMemo(() => {
+  // height (data z) -> three Y up; (x, z, -y). also track height range for shading
+  const { positions, hNorm } = useMemo(() => {
     const p = new Float32Array(data.n * 3);
+    let hmin = Infinity;
+    let hmax = -Infinity;
     for (let i = 0; i < data.n; i++) {
+      const h = data.pos[i * 3 + 2];
       p[i * 3] = data.pos[i * 3];
-      p[i * 3 + 1] = data.pos[i * 3 + 2];
+      p[i * 3 + 1] = h;
       p[i * 3 + 2] = -data.pos[i * 3 + 1];
+      if (h < hmin) hmin = h;
+      if (h > hmax) hmax = h;
     }
-    return p;
+    const hN = new Float32Array(data.n);
+    const span = hmax - hmin || 1;
+    for (let i = 0; i < data.n; i++) hN[i] = (data.pos[i * 3 + 2] - hmin) / span;
+    return { positions: p, hNorm: hN };
   }, [data]);
 
   const colors = useMemo(() => {
@@ -43,13 +71,17 @@ function Cloud({ data, mode }: { data: TreeData; mode: Mode }) {
       let col: number[];
       if (mode === "error") col = data.pred[i] === data.gt[i] ? OK : ERR;
       else col = (mode === "pred" ? data.pred : data.gt)[i] ? WOOD : LEAF;
-      c[i * 3] = col[0]; c[i * 3 + 1] = col[1]; c[i * 3 + 2] = col[2];
+      // gentle volumetric shading by height (skip in error mode so red stays hot)
+      const shade = mode === "error" ? 1 : 0.82 + 0.3 * hNorm[i];
+      c[i * 3] = Math.min(1, col[0] * shade);
+      c[i * 3 + 1] = Math.min(1, col[1] * shade);
+      c[i * 3 + 2] = Math.min(1, col[2] * shade);
     }
     return c;
-  }, [data, mode]);
+  }, [data, mode, hNorm]);
 
   useFrame((_, dt) => {
-    if (ref.current) ref.current.rotation.y += dt * 0.18;
+    if (ref.current) ref.current.rotation.y += dt * 0.16;
   });
 
   return (
@@ -58,7 +90,15 @@ function Cloud({ data, mode }: { data: TreeData; mode: Mode }) {
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
         <bufferAttribute attach="attributes-color" args={[colors, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.012} vertexColors sizeAttenuation />
+      <pointsMaterial
+        size={mode === "error" ? 0.0066 : 0.0052}
+        map={sprite}
+        alphaTest={0.4}
+        transparent
+        vertexColors
+        sizeAttenuation
+        depthWrite
+      />
     </points>
   );
 }
@@ -110,10 +150,18 @@ export default function Viewer() {
         {err ? (
           <p className="viewer-msg">3D data unavailable.</p>
         ) : data ? (
-          <Canvas camera={{ position: [1.6, 0.9, 1.6], fov: 45 }} dpr={[1, 2]}>
-            <color attach="background" args={["#0b0f0a"]} />
+          <Canvas camera={{ position: [0, 0.48, 1.42], fov: 45 }} dpr={[1, 2]}>
+            <color attach="background" args={[BG]} />
+            <fogExp2 attach="fog" args={[BG, 0.16]} />
             <Cloud data={data} mode={mode} />
-            <OrbitControls enablePan={false} minDistance={0.8} maxDistance={4} />
+            <OrbitControls
+              enablePan={false}
+              enableDamping
+              dampingFactor={0.08}
+              minDistance={0.6}
+              maxDistance={4}
+              target={[0, 0.46, 0]}
+            />
           </Canvas>
         ) : (
           <p className="viewer-msg">Loading point cloud…</p>
