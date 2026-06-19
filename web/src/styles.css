@@ -41,8 +41,11 @@ body {
   font-size: clamp(1.9rem, 4.2vw, 3.1rem); line-height: 1.12;
   margin: 0 0 18px; letter-spacing: -0.02em; color: #16201a;
 }
-.byline { font-size: 1rem; color: var(--ink); margin: 0 0 20px; font-weight: 500; }
-.byline a { color: var(--leaf-deep); text-decoration: none; }
+.byline { font-size: 1rem; color: var(--muted); margin: 0 0 20px; line-height: 1.7; }
+.byline-name { color: var(--ink); font-weight: 700; }
+.byline-org { color: var(--muted); }
+.byline-sep { color: var(--faint); margin: 0 14px; font-weight: 300; }
+.byline a { color: var(--leaf-deep); text-decoration: none; font-weight: 500; }
 .byline a:hover { text-decoration: underline; }
 .lede { max-width: 720px; font-size: 1.12rem; color: var(--muted); margin: 0 0 36px; }
 .lede .amber { color: var(--leaf-deep); font-weight: 600; }

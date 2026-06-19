@@ -50,7 +50,10 @@ function App() {
           <p className="kicker">Terrestrial laser scanning · point-cloud segmentation</p>
           <h1>Label-Efficient Leaf-Wood Separation in TLS Forest Point Clouds</h1>
           <p className="byline">
-            Guanxiong Huang · College of Information Engineering, Northwest A&amp;F University ·{" "}
+            <span className="byline-name">Guanxiong Huang</span>
+            <span className="byline-sep" aria-hidden="true">|</span>
+            <span className="byline-org">College of Information Engineering, Northwest A&amp;F University</span>
+            <span className="byline-sep" aria-hidden="true">|</span>
             <a href="mailto:harry.huang@nwafu.edu.cn">harry.huang@nwafu.edu.cn</a>
           </p>
           <p className="lede">
