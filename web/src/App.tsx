@@ -156,7 +156,11 @@ Baseline   same linear classifier on 8-d hand-crafted covariance features
       </main>
 
       <footer className="footer">
-        forest-leafwood-seg · label-efficient leaf-wood separation for TLS forest point clouds
+        <p className="footer-author">
+          Guanxiong Huang · Northwest A&amp;F University ·{" "}
+          <a href="mailto:harry.huang@nwafu.edu.cn">harry.huang@nwafu.edu.cn</a>
+        </p>
+        <p>forest-leafwood-seg — label-efficient leaf-wood separation for TLS forest point clouds</p>
       </footer>
 
       {zoom && (

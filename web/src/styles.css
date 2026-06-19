@@ -93,6 +93,10 @@ table.results td.best { font-weight: 700; color: var(--leaf-deep); }
 }
 
 .footer { max-width: var(--max); margin: 0 auto; padding: 32px 24px 64px; color: var(--faint); font-size: 0.86rem; }
+.footer p { margin: 0 0 4px; }
+.footer-author { color: var(--muted); }
+.footer-author a { color: var(--leaf-deep); text-decoration: none; }
+.footer-author a:hover { text-decoration: underline; }
 
 /* lightbox */
 .lightbox {
