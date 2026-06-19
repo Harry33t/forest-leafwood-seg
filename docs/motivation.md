@@ -32,3 +32,8 @@ trait retrieval. I would like to extend this to multi-site, multi-sensor forest 
 
 这指向一条可扩展、可迁移、只需稀疏标注的 leaf-wood 分离路径——可信 TLS 生物量与结构性状反演的前提。
 希望将其拓展到多站点、多传感器的森林清查。
+
+---
+
+**Guanxiong Huang** · College of Information Engineering, Northwest A&F University · harry.huang@nwafu.edu.cn
+· Demo: https://harry33t.github.io/forest-leafwood-seg/

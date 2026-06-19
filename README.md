@@ -82,7 +82,7 @@ web/    React project site (deployable to GitHub Pages)
 
 ## Author
 
-Guanxiong Huang — Northwest A&F University · [harry.huang@nwafu.edu.cn](mailto:harry.huang@nwafu.edu.cn)
+Guanxiong Huang — College of Information Engineering, Northwest A&F University · [harry.huang@nwafu.edu.cn](mailto:harry.huang@nwafu.edu.cn)
 
 Live demo: https://harry33t.github.io/forest-leafwood-seg/
 
